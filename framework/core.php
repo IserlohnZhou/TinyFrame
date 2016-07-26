@@ -6,7 +6,7 @@ class core
     function run()
     {
         spl_autoload_register(array($this, 'loadClass'));
-        $this->setReporting();
+        //$this->setReporting();
         $this->removeMagicQuotes();
         $this->unregisterGlobals();
         $this->Route();
