@@ -4,7 +4,7 @@
 define('FRAME_PATH', __DIR__.'/');
 
 require('../config/config.php');
-require(FRAME_PATH.'core.php');
+require(FRAME_PATH.'Kernel.php');
 
-$core=new core;
-$core->run();
+$kernel=new Kernel;
+$kernel->run();
