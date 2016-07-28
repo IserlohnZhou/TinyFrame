@@ -1,10 +1,9 @@
 <?php
 
 class Kernel {
-    // 运行程序
     function run() {
         spl_autoload_register(array($this, 'loadClass'));
-        //$this->setReporting();
+        $this->setReporting();
         $this->removeMagicQuotes();
         $this->unregisterGlobals();
         $this->Route();
@@ -41,12 +40,16 @@ class Kernel {
         // 实例化控制器
         $controller = $controllerName . 'Controller';
         $dispatch = new $controller($controllerName, $action);
-        // 如果控制器存和动作存在，这调用并传入URL参数
+        // 如果控制器和动作存在，这调用并传入URL参数
         if ((int)method_exists($controller, $action)) {
             call_user_func_array(array($dispatch, $action), $param);
         } else {
             exit("Controller or action does not exist");
         }
+    }
+
+    function setReporting() {
+
     }
 
     // 删除敏感字符
@@ -69,7 +72,7 @@ class Kernel {
         $frameworks = FRAME_PATH . $class . '.class.php';
         $controllers = APP_PATH . 'app/controllers/' . $class . '.php';
         $models = APP_PATH . 'app/models/' . $class . '.php';
-
+        
         if (file_exists($frameworks)) {
             //load frameworks
             include $frameworks;

@@ -1,6 +1,6 @@
 <?php
 
-class Model extends db_mysql {
+class Model extends Sql {
     protected $_model;
     protected $_table;
  
@@ -12,7 +12,7 @@ class Model extends db_mysql {
         $this->_model = get_class($this);
         $this->_model = rtrim($this->_model, 'Model');
         
-        // 数据库表名与类名一致
+        // 数据库表名与模型名一致
         $this->_table = strtolower($this->_model);
     }
  

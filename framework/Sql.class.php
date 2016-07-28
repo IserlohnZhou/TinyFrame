@@ -1,6 +1,6 @@
 <?php
 
-class db_mysql {
+class Sql {
   private static $_dbh = null; //静态属性,所有数据库实例共用,避免重复连接数据库
   private $_dbType = 'mysql';  
   private $_pconnect = true; //是否使用长连接
@@ -20,23 +20,18 @@ class db_mysql {
 
   public function __construct() {
       class_exists('PDO') or die("PDO: class not exists.");
-      $this->_host = "localhost";
-      $this->_port = 3306;
-      $this->_user = "root";
-      $this->_pass = "root";
-      $this->_dbName = "TinyFrame";
 
      	//$this->connect($this->_host,$this->_user,$this->_pass,$this->_dbName);
   }
 
-  private function connect($host,$user,$pass,$db){
+  public function connect($host,$user,$pass,$db) {
   	$con=mysql_connect($host,$user,$pass);
   	$this->_con=$con;
     $sql = 'use ' . $db;
     $this->query($sql);
   }
 
-	public function fetch_all($sql){
+	public function fetch_all($sql) {
 	  	$list = array();
   		$rs = $this->query($sql);
   		if (!$rs) {
@@ -48,7 +43,7 @@ class db_mysql {
    		return $list;	
 	}
 
-	public function fetch_one($sql){
+	public function fetch_one($sql) {
 		$rs = $this->query($sql);
   		if (!$rs) {
    			return false;
@@ -56,40 +51,46 @@ class db_mysql {
   		return mysql_fetch_assoc($rs);
 	}
 
-  public function select_all(){
-    $sql = sprintf("select * from `%s`", $this->table);
+  public function where($sql) {
+    $this->_where="where ".$sql;
+    return $this;
+  }
+
+  public function select_all() {
+    $sql = sprintf("select * from `%s` " . $this->_where, $this->_table);
+    echo $sql;
+    $this->_where='';
     return $this->fetch_all($sql);
   } 
 
-  public function select($id){
+  public function select($id) {
     $sql = sprintf("select * from `%s` where `id` = '%s'", $this->_table, $id);
     return $this->fetch_one($sql);
   } 
 
-  public function delete($id){
+  public function delete($id) {
     $sql = sprintf("delete from `%s` where `id` = '%s'", $this->_table, $id);
     return $this->query($sql);
   } 
   
-  function update($table,$data,$where){
+  function update($table,$data,$where) {
 		
 	} 
 
-	public function insert($data){
-    $sql = sprintf("insert into `%s` %s", $this->_table, $this->formatInsert($data));
-    return $this->query($sql);
+	public function insert($data) {
+    
 	}
 
 
-  public function query($sql){
+  public function query($sql) {
 		return mysql_query($sql,$this->_con);
 	}
 
-	function execute($sql){
+	function execute($sql) {
 		
 	}
 
-	public function close(){
+	public function close() {
 		mysql_close($this->_con);
 	}
 

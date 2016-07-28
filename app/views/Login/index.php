@@ -14,7 +14,7 @@
                         <?php
                         }
                         ?>
-                        <form class="form-horizontal" role="form" method="POST" action="/checklogin.php">
+                        <form class="form-horizontal" role="form" method="POST" action="/login/checklogin">
                             <div class="form-group">
                                 <label for="username" class="col-md-4 control-label">Username</label>
 
