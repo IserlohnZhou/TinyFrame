@@ -16,7 +16,8 @@ class Sql {
   private $_field = '*';
   private $_clear = 0; //状态，0表示查询条件干净，1表示查询条件污染
   private $_trans = 0; //事务指令数 
-  private $_con=NULL;
+  private $_con = NULL;
+  private $_id = NULL;
 
   public function __construct() {
       class_exists('PDO') or die("PDO: class not exists.");
@@ -58,27 +59,36 @@ class Sql {
 
   public function select_all() {
     $sql = sprintf("select * from `%s` " . $this->_where, $this->_table);
-    echo $sql;
-    $this->_where='';
+    $this->_where = '';
     return $this->fetch_all($sql);
+  } 
+
+  public function select_one() {
+    $sql = sprintf("select * from `%s` " . $this->_where, $this->_table);
+    $this->_where = '';
+    return $this->fetch_one($sql);
   } 
 
   public function select($id) {
     $sql = sprintf("select * from `%s` where `id` = '%s'", $this->_table, $id);
+    $this->_id = $id;
     return $this->fetch_one($sql);
   } 
 
   public function delete($id) {
     $sql = sprintf("delete from `%s` where `id` = '%s'", $this->_table, $id);
+    $thsi->_id = NULL;
     return $this->query($sql);
   } 
   
-  function update($table,$data,$where) {
-		
+  public function update($data, $id) {
+		$sql = sprintf("update `%s` set %s where `id` = '%s'", $this->_table, $this->formatUpdate($data), $id);
+    return $this->query($sql);
 	} 
 
 	public function insert($data) {
-    
+    $sql = sprintf("insert into `%s` %s", $this->_table, $this->formatInsert($data));
+    return $this->query($sql);
 	}
 
 
@@ -94,4 +104,30 @@ class Sql {
 		mysql_close($this->_con);
 	}
 
+  // 将数组转换成插入格式的sql语句
+  private function formatInsert($data)
+  {
+      $fields = array();
+      $values = array();
+      foreach ($data as $key => $value) {
+          $fields[] = sprintf("`%s`", $key);
+          $values[] = sprintf("'%s'", $value);
+      }
+
+      $field = implode(',', $fields);
+      $value = implode(',', $values);
+
+      return sprintf("(%s) values (%s)", $field, $value);
+  }
+
+  // 将数组转换成更新格式的sql语句
+  private function formatUpdate($data)
+  {
+      $fields = array();
+      foreach ($data as $key => $value) {
+          $fields[] = sprintf("`%s` = '%s'", $key, $value);
+      }
+
+      return implode(',', $fields);
+  }
 }

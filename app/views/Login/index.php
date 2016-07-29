@@ -5,7 +5,6 @@
                     <div class="panel-heading">Login</div>
                     <div class="panel-body">
                         <?php
-                        session_start();
                         if (isset($_SESSION['login_err'])){
                         ?>
                             <div class="alert alert-danger">
@@ -77,7 +76,7 @@
                                             <strong><?php echo $_SESSION['captcha_err'];unset($_SESSION['captcha_err']); ?></strong>
                                         </span>
                                     <?php
-                                    }
+                                    }                                 
                                     ?>
                                 </div>
                             </div>

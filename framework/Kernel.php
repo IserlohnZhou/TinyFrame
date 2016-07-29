@@ -40,10 +40,11 @@ class Kernel {
         // 实例化控制器
         $controller = $controllerName . 'Controller';
         $dispatch = new $controller($controllerName, $action);
-        // 如果控制器和动作存在，这调用并传入URL参数
+        // 如果控制器和动作存在，调用并传入URL参数
         if ((int)method_exists($controller, $action)) {
             call_user_func_array(array($dispatch, $action), $param);
-        } else {
+        } 
+        else {
             exit("Controller or action does not exist");
         }
     }

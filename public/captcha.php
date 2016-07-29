@@ -1,6 +1,5 @@
 <?php
  
-session_start();
 function random($len) {
     $srcstr = "1a2s3d4f5g6hj8k9qwertyupzxcvbnm";
     mt_srand();
@@ -58,4 +57,5 @@ imagedestroy($im);
 //SetCookie("verification", $str, time() + 7200, "/");
  
 //选择 Session
+session_start();
 $_SESSION['verification'] = $str;
