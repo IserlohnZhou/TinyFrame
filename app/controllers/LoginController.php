@@ -24,17 +24,18 @@ class LoginController extends Controller {
 			$errflag=1;
 		}
 
-		if (($captcha!=$_SESSION['verification'])||(!preg_match('/^[a-zA-Z0-9]{4}$/',$captcha))) {
-			$_SESSION['captcha_err']="Captcha was wrong";
-			$errflag=1;
+		if (($captcha != $_SESSION['verification'])||(!preg_match('/^[a-zA-Z0-9]{4}$/',$captcha))) {
+			$_SESSION['captcha_err'] = "Captcha was wrong";
+			$errflag = 1;
 		}
 
-		if ($req==NULL) {
-			$_SESSION['login_err']="Username or password was wrong!";
-			$errflag=1;
+		if ($req == NULL) {
+			$_SESSION['login_err'] = "Username or password was wrong!";
+			$errflag = 1;
 		}
 		if ($errflag == 0) {
 			$_SESSION['username'] = $username;
+			$_SESSION['user_id'] = $req['id'];
 			$this->redirect("/articles");
 		}
 		else {
@@ -44,6 +45,7 @@ class LoginController extends Controller {
 
 	function logout() {
 		unset($_SESSION['username']);
+		unset($_SESSION['user_id']);
   		//session_destroy();
 		$this->redirect("/login");
 	}

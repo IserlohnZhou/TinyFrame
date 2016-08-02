@@ -23,9 +23,9 @@ class View {
         extract($this->variables);
         
         $defaultHeader = APP_PATH . 'app/views/header.php';
-        //$defaultFooter = APP_PATH . 'application/views/footer.php';
+        $defaultFooter = APP_PATH . 'app/views/footer.php';
         $controllerHeader = APP_PATH . 'app/views/' . $this->_controller . '/header.php';
-        //$controllerFooter = APP_PATH . 'application/views/' . $this->_controller . '/footer.php';
+        $controllerFooter = APP_PATH . 'app/views/' . $this->_controller . '/footer.php';
         
         // 页头文件
         if (file_exists($controllerHeader)) {
@@ -37,12 +37,12 @@ class View {
         // 页内容文件
         include (APP_PATH . 'app/views/' . $this->_controller . '/' . $this->_action . '.php');
         
-	    // // 页脚文件
-	    // if (file_exists($controllerFooter)) {
-	    //     include ($controllerFooter);
-	    // } else {
-	    //     include ($defaultFooter);
-	    // }
+	    // 页脚文件
+	    if (file_exists($controllerFooter)) {
+	        include ($controllerFooter);
+	    } else {
+	        include ($defaultFooter);
+	    }
     }
 
 }

@@ -23,4 +23,18 @@ class BlogController extends Controller {
 		return $this->_view->render();
 	}
 
+	function search() {
+		$Articles = new ArticlesModel;
+		$users = new UsersModel;
+		$str=$_REQUEST['str'];
+		$req = $Articles->where("state = '1' AND ( title LIKE '%%{$str}%%' OR body LIKE '%%{$str}%%' )")->select_all();
+		for ($i=0; $i<=count($req)-1; $i++) {
+  			$user = $users->select($req[$i]['user_id'])['username'];
+  			$req[$i]['username'] = $user;
+		}
+		$this->assign('articles', $req);
+		return $this->_view->render();
+
+	}
+
 }

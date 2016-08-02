@@ -16,8 +16,9 @@ class ArticlesController extends Auth {
 		$Articles = new ArticlesModel;
 		$article['title'] = $_REQUEST['title'];
 		$article['body'] = $_REQUEST['body'];
-		$article['user_id'] = 1;
-		var_dump($Articles->insert($article));
+		$article['user_id'] = $_SESSION['user_id'];
+		$article['cover_path'] = Common::upload_file($article['user_id']);
+		$Articles->insert($article);
 		$this->redirect('/articles');
 	}
 
@@ -32,6 +33,8 @@ class ArticlesController extends Auth {
 		$Articles = new ArticlesModel;
 		$article['title'] = $_REQUEST['title'];
 		$article['body'] = $_REQUEST['body'];
+		$article['user_id'] = $_SESSION['user_id'];
+		$article['cover_path'] = Common::upload_file($article['user_id']);
 		$Articles->update($article, $id);
 		$this->redirect('/articles');
 	}
