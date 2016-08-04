@@ -15,11 +15,22 @@ class BlogController extends Controller {
 
 	function show($id) {
 		$Articles = new ArticlesModel;
+		$Comments = new CommentsModel;
 		$users = new UsersModel;
-		$req = $Articles->select($id);
+		$req = $Articles->where("state = 1 AND id = {$id}")->select_one();;
 		$user = $users->select($req['user_id'])['username'];
   		$req['username'] = $user;
 		$this->assign('article', $req);
+		$req = $Comments->where("article_id = {$id}")->select_all();
+		$this->assign('comments',$req);
+		if (count($req) == 0) {
+			$comment_title="";
+		}else if(count($req) == 1) {
+			$comment_title="1 Comment";
+		}else {
+			$comment_title=count($req)." Comments";
+		}
+		$this->assign('comment_title',$comment_title);
 		return $this->_view->render();
 	}
 
@@ -35,6 +46,15 @@ class BlogController extends Controller {
 		$this->assign('articles', $req);
 		return $this->_view->render();
 
+	}
+
+	function comment_store() {
+		$Comments = new CommentsModel;
+		$comment['nickname'] = $_REQUEST['nickname'];
+		$comment['content'] = $_REQUEST['content'];
+		$comment['article_id'] = $_REQUEST['article_id'];
+		$Comments->insert($comment);
+		$this->redirect('/blog/show/'.$_REQUEST['article_id']);
 	}
 
 }

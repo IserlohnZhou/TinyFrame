@@ -47,10 +47,10 @@
                         <a href="#">1</a>
                     </li>
                     <li class="previous">
-                        <a href="#">&larr; Later Posts</a>
+                        <a href="#">&lt; Later Posts</a>
                     </li>
                     <li class="next">
-                        <a href="#">Older Posts &rarr;</a>
+                        <a href="#">Older Posts &gt;</a>
                     </li>
                 </ul>
             </div>

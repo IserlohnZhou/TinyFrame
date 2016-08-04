@@ -15,6 +15,10 @@ class Model extends Sql {
         // 数据库表名与模型名一致
         $this->_table = strtolower($this->_model);
     }
+
+    function hasMany($class, $field_many, $field_one) {
+        
+    }
  
     function __destruct() {
     

@@ -21,8 +21,29 @@
                 <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
                     <?php echo $article['body'] ?> 
                 </div>
+                <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                    <br><br>
+                    <h2><?php echo $comment_title ?></h2>
+                    <hr>
+                    <?php foreach ($comments as $comment) { ?>
+                        <h3><?php echo $comment['nickname']?>:</h3>
+                        <span><?php echo $comment['content']?></span>
+                        <h5 style="font-weight:lighter;">Posted on <?php echo $comment['updated_at']?></h5>
+                        <hr>
+                    <?php } ?>
+                </div>
+                <div class="col-lg-6 col-lg-offset-2 col-md-10 col-md-offset-1">
+                    <h2 style="font-weight:normal;">Leave a comment</h2>
+                    <br>
+                    <form action="/blog/comment_store" method="POST" > 
+                        <input type="hidden" name="article_id" value=<?php echo $article['id'] ?> >                                         
+                        <input class="form-control" type="text" value="" name="nickname" placeholder="nickname" required="required"/>
+                        <br>
+                        <textarea class="form-control"name="content" rows="8" id="newFormContent" placeholder="Content" required="required"></textarea>
+                        <br>
+                        <input type="submit" class="btn btn-sm " value="SEND"/>
+                    </form>   
+                </div>
             </div>
         </div>
     </article>
-
-    <hr>
