@@ -36,7 +36,7 @@ class LoginController extends Controller {
 		if ($errflag == 0) {
 			$_SESSION['username'] = $username;
 			$_SESSION['user_id'] = $req['id'];
-			$this->redirect("/articles");
+			$this->redirect("/admin");
 		}
 		else {
 			$this->redirect("/login");			

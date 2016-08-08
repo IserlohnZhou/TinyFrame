@@ -37,11 +37,11 @@
                     <br>
                     <form action="/blog/comment_store" method="POST" > 
                         <input type="hidden" name="article_id" value=<?php echo $article['id'] ?> >                                         
-                        <input class="form-control" type="text" value="" name="nickname" placeholder="nickname" required="required"/>
+                        <input class="form-control" type="text" value="" name="nickname" placeholder="Nickname" required="required"/>
                         <br>
                         <textarea class="form-control"name="content" rows="8" id="newFormContent" placeholder="Content" required="required"></textarea>
                         <br>
-                        <input type="submit" class="btn btn-sm " value="SEND"/>
+                        <input type="submit" class="btn btn-sm col-lg-3 " value="SEND"/>
                     </form>   
                 </div>
             </div>

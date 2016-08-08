@@ -61,8 +61,8 @@
     <li class="submenu active"> <a href="#"><i class="icon icon-th-list"></i> <span>management</span></a>
       <ul>
         <li><a href="/articles">Articles</a></li>
-        <li><a href=" ">Comments</a></li>
-        <li><a href=" ">Tags</a></li>
+        <li><a href="/comments">Comments</a></li>
+        <li><a href="/tags">Tags</a></li>
       </ul>
     </li>
     <li><a href="buttons.html"><i class="icon icon-tint"></i> <span>balabala</span></a></li>
@@ -87,9 +87,9 @@
           <div class="control-group">
             <form action=<?php echo "/articles/update/".$article['id'] ?> method="POST" enctype="multipart/form-data">   
               <div class="controls">
-                <input type="text" name="title" class="span12" required="required" placeholder="" value="<?php echo $article['title'] ?>" >
+                <input type="text" name="title" class="span12" required="required" value="<?php echo $article['title'] ?>" >
                 <br>
-                <textarea name="body" rows="10" class="textarea_editor span12" required="required" placeholder="" ><?php echo $article['body'] ?></textarea>
+                <textarea name="body" rows="10" class="textarea_editor span12" required="required"><?php echo $article['body'] ?></textarea>
                 <br>
                 <label class="control-label" style="display: inline;">File upload input</label>
                 <input type="file" name="file" id="file" />

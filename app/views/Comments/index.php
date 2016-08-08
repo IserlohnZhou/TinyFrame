@@ -57,8 +57,8 @@
     <li class="submenu active"> <a href="#"><i class="icon icon-th-list"></i> <span>management</span></a>
       <ul>
         <li><a href="/articles">Articles</a></li>
-        <li><a href="/comments">Comments</a></li>
-        <li><a href="/tags">Tags</a></li>
+        <li><a href=" ">Comments</a></li>
+        <li><a href=" ">Tags</a></li>
       </ul>
     </li>
     <li><a href="buttons.html"><i class="icon icon-tint"></i> <span>balabala</span></a></li>
@@ -68,8 +68,8 @@
 <div id="content">
 
   <div id="content-header">
-    <div id="breadcrumb"> <a href="index.html" title="Go to Home" class="tip-bottom"><i class="icon-home"></i> Home</a> <a href="#" class="tip-bottom">Management</a> <a href="#" class="current">Articles</a> </div>
-    <h1>Articles</h1>
+    <div id="breadcrumb"> <a href="index.html" title="Go to Home" class="tip-bottom"><i class="icon-home"></i> Home</a> <a href="#" class="tip-bottom">Management</a> <a href="#" class="current">Comments</a> </div>
+    <h1>Comments</h1>
   </div>
 
   <!-- Articles table -->
@@ -79,33 +79,74 @@
       <div class="span12">
         <div class="widget-box">
           <div class="widget-title"> <span class="icon"><i class="icon-th"></i></span>
-            <h5>Data table</h5>
-            <form action=<?php echo "/articles/create" ?>  method="POST"  style="text-align:right; padding-right:9px; padding-top:3px;">
-              <button type="submit" class="btn " style=""><i class="icon-plus"></i> Post</button>
-            </form>
+            <h5>Comments</h5>
           </div>
           <div class="widget-content nopadding">
             <table class="table table-bordered data-table">
               <thead>
                 <tr>
-                  <th>title</th>
+                  <th>comment</th>
                   <th>author</th>
-                  <th>updated at</th>
+                  <th>article_id</th>
                   <th>operate</th>
                 </tr>
               </thead>
               <tbody>
-                <?php foreach ($articles as $article) { ?>
+                <?php foreach ($comments as $comment) { ?>
                 <tr class="gradeA">
-                  <td><?php echo $article['title'] ?></td>
-                  <td><center><?php echo $article['user_id'] ?></center></td>
-                  <td><center><?php echo $article['updated_at'] ?></center></td>
-                  <td>
+                  <td><?php echo $comment['content'] ?></td>
+                  <td><center><?php echo $comment['nickname'] ?></center></td>
+                  <td><center><a href=<?php echo "/articles/edit/".$comment['article_id'] ?> target="_blank"><?php echo $comment['article_id'] ?></a></center></td>
+                  <td >
                     <center>
-                      <form action=<?php echo "/articles/edit/".$article['id'] ?> method="POST" style="display: inline;">
-                            <button type="submit" class="btn btn-success btn-mini"><i class="icon-edit"></i> Edit</button>
-                      </form>                            
-                      <form action=<?php echo "/articles/delete/".$article['id'] ?>  method="POST" style="display: inline;">
+                      <a href="#CommentEdit" data-toggle="modal" class="btn btn-success btn-mini "><i class="icon-edit"></i>Edit</a> 
+                      
+                      <div id="CommentEdit" class="modal hide">
+                        <div class="modal-header">
+                          <button data-dismiss="modal" class="close" type="button">×</button>
+                          <h3>Edit comments</h3>
+                        </div>
+                        <div class="modal-body">
+                          <div class="widget-box">
+                            <div class="widget-title"> <span class="icon"> <i class="icon-align-justify"></i> </span>
+                              <h5>Details</h5>
+                            </div>
+                            <div class="widget-content nopadding">
+                              <form action=<?php echo "/comments/update/".$comment['id'] ?>  method="POST" class="form-horizontal">
+                                <div class="control-group">
+                                  <label class="control-label">Nickname:</label>
+                                  <div class="controls">
+                                    <input type="text" name="nickname" class="span11" value="<?php echo $comment['nickname'] ?>"/>
+                                  </div>
+                                </div>
+                                <div class="control-group">
+                                  <label class="control-label">E-mail</label>
+                                  <div class="controls">
+                                    <input type="email" name="email" class="span11" placeholder="E-mail address"  />
+                                  </div>
+                                </div>
+                                <div class="control-group">
+                                  <label class="control-label">Website</label>
+                                  <div class="controls">
+                                    <input type="text" name="website" class="span11" placeholder="Website name" />
+                                  </div>
+                                </div>
+                                <div class="control-group">
+                                  <label class="control-label">Content</label>
+                                  <div class="controls">
+                                    <textarea class="span11" name="content" ><?php echo $comment['content'] ?></textarea>
+                                  </div>
+                                </div>
+                                <div class="form-actions">
+                                  <button type="submit" class="btn btn-success">Save</button>
+                                </div>
+                              </form>
+                            </div>
+                          </div>
+                        </div>
+                      </div>   
+
+                      <form action=<?php echo "/comments/delete/".$comment['id'] ?>  method="POST" style="display: inline;">
                             <button type="submit" class="btn btn-danger btn-mini"><i class="icon-remove"></i> Delete</button>
                       </form>
                     </center>

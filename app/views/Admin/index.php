@@ -56,8 +56,8 @@
     <li class="submenu"> <a href="#"><i class="icon icon-th-list"></i> <span>management</span></a>
       <ul>
         <li><a href="/articles">Articles</a></li>
-        <li><a href=" ">Comments</a></li>
-        <li><a href=" ">Tags</a></li>
+        <li><a href="/comments">Comments</a></li>
+        <li><a href="/tags">Tags</a></li>
       </ul>
     </li>
     <li><a href="buttons.html"><i class="icon icon-tint"></i> <span>balabala</span></a></li>

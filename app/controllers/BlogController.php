@@ -21,7 +21,7 @@ class BlogController extends Controller {
 		$user = $users->select($req['user_id'])['username'];
   		$req['username'] = $user;
 		$this->assign('article', $req);
-		$req = $Comments->where("article_id = {$id}")->select_all();
+		$req = $Comments->where("article_id = {$id} and state = 1")->select_all();
 		$this->assign('comments',$req);
 		if (count($req) == 0) {
 			$comment_title="";
