@@ -8,10 +8,12 @@ class Sql {
   private $_pass = "root";
   private $_dbName = ""; //数据库名
   private $_sql = ''; //最后一条sql语句
-  private $_where = '';
+  private $_where = '1';
   private $_order = '';
   private $_limit = '';
   private $_field = '*';
+  private $_join = ''; 
+  private $_lastsql = '';
   private $_con = NULL;
   private $_id = NULL;
 
@@ -49,19 +51,17 @@ class Sql {
   }
 
   public function where($sql) {
-    $this->_where="where ".$sql;
+    $this->_where = "({$this->_where}) AND ".$sql;
     return $this;
   }
 
   public function select_all() {
-    $sql = sprintf("select * from `%s` " . $this->_where, $this->_table);
-    $this->_where = '';
+    $sql = sprintf("select * from %s %s where %s" , $this->_table, $this->_join, $this->_where);
     return $this->fetch_all($sql);
   } 
 
   public function select_one() {
-    $sql = sprintf("select * from `%s` " . $this->_where, $this->_table);
-    $this->_where = '';
+    $sql = sprintf("select * from %s where %s" , $this->_table, $this->_where);
     return $this->fetch_one($sql);
   } 
 
@@ -89,7 +89,15 @@ class Sql {
 
 
   public function query($sql) {
+    $this->_lastsql = $sql;
+    $this->_where = "1";
+    $this->_join = ""; 
     return mysql_query($sql,$this->_con);
+  }
+
+  public function join($table,$col) {
+    $this->_join = "inner join ".$table." on ".$col;
+    return $this;
   }
 
   function execute($sql) {

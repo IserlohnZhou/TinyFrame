@@ -43,6 +43,12 @@ class ArticlesController extends Auth {
 		$Articles = new ArticlesModel;
 		$article['state'] = 0;
 		$Articles->update($article, $id);
+		$Comments = new CommentsModel;
+		$comments = $Comments->where("article_id = {$id}")->select_all();
+		foreach ($comments as $comment) {
+			$comment['state'] = 0;
+			$Comments->update($comment, $comment['id']);
+		}
 		$this->redirect("/articles");
 	}
 

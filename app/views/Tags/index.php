@@ -69,84 +69,120 @@
 
   <div id="content-header">
     <div id="breadcrumb"> <a href="index.html" title="Go to Home" class="tip-bottom"><i class="icon-home"></i> Home</a> <a href="#" class="tip-bottom">Management</a> <a href="#" class="current">Comments</a> </div>
-    <h1>Comments</h1>
+    <h1>Tags1</h1>
   </div>
 
-  <!-- Articles table -->
+  <!-- Tass table -->
   <div class="container-fluid">
     <hr>
     <div class="row-fluid">
       <div class="span12">
         <div class="widget-box">
           <div class="widget-title"> <span class="icon"><i class="icon-th"></i></span>
-            <h5>Comments</h5>
+            <h5>Tags</h5>
           </div>
           <div class="widget-content nopadding">
             <table class="table table-bordered data-table">
               <thead>
                 <tr>
-                  <th>comment</th>
-                  <th>author</th>
-                  <th>article_id</th>
-                  <th>operate</th>
+                  <th>articles</th>
+                  <th>tags</th>
+                  <th>add</th>
                 </tr>
               </thead>
               <tbody>
-                <?php foreach ($comments as $comment) { ?>
+                <?php foreach ($articles as $article) { ?>
                 <tr class="gradeA">
-                  <td><?php echo $comment['content'] ?></td>
-                  <td><center><?php echo $comment['nickname'] ?></center></td>
-                  <td><center><a href=<?php echo "/articles/edit/".$comment['article_id'] ?> target="_blank"><?php echo $comment['article_id'] ?></a></center></td>
-                  <td >
+                  <td><a href=<?php echo "/articles/edit/".$article['id'] ?> target="_blank"><?php echo $article['title'] ?></a></td>
+                  <td>
+                    <?php foreach ($article['tags'] as $articles_tags) { ?>
+                      <form action=<?php echo "/articles_tags/delete/".$articles_tags['id']."&".$article['id'] ?>  method="POST" style="display: inline;">
+                            <button type="submit" class="btn btn-mini"><?php echo $articles_tags['tag_name']?></button>
+                      </form>
+                    <?php } ?>
+                  </td>
+                  <td><center>
+                    <form action=<?php echo "/articles_tags/store" ?>  method="POST">          
+                      <div class="btn-group">
+                        <button data-toggle="dropdown" class="btn btn-mini dropdown-toggle"><i class="icon-plus"></i>  Add new <span class="caret"></span></button>
+                        <ul class="dropdown-menu">
+                          <?php foreach ($article['addlist'] as $item) { ?>
+                            <li><a href=<?php echo "/articles_tags/store/".$item['id']."&".$article['id'] ?> ><?php echo $item['tag_name'] ?></a></li>
+                          <?php } ?>
+                        </ul>
+                      </div>           
+                    </form>  
+                  </center></td>
+                </tr>
+                <?php } ?>
+              </tbody>
+            </table>
+          </div>
+        </div>
+        <hr>      
+        <div class="widget-box">
+          <div class="widget-title"> <span class="icon"><i class="icon-th"></i></span>
+            <h5>Tags</h5>
+   
+            <div style="text-align:right; padding-right:9px; padding-top:3px;">
+              <a href="#TagsAdd" data-toggle="modal" class="btn" ><i class="icon-plus"></i> New</a>
+            </div>  
+            
+            <div id="TagsAdd" class="modal hide">
+              <div class="modal-header">
+                <button data-dismiss="modal" class="close" type="button">×</button>
+                <h3>Add new</h3>
+              </div>
+              <div class="modal-body">
+                <div class="widget-box">
+                  <div class="widget-title"> <span class="icon"> <i class="icon-align-justify"></i> </span>
+                    <h5>Details</h5>
+                  </div>
+                  <div class="widget-content nopadding">
+                    <form action=<?php echo "/tags/add_new_tag" ?>  method="POST" class="form-horizontal">
+                      <div class="control-group">
+                        <label class="control-label">Tag:</label>
+                        <div class="controls">
+                          <input type="text" name="tag_name" class="span11" />
+                        </div>
+                      </div>
+                      <div class="control-group">
+                        <label class="control-label">Description</label>
+                        <div class="controls">
+                          <textarea class="span11" name="tag_desc" ></textarea>
+                        </div>
+                      </div>
+                      <div class="form-actions">
+                        <center><button type="submit" class="btn btn-success">Save</button></center>
+                      </div>
+                    </form>
+                  </div>
+                </div>
+              </div>
+            </div>   
+          </div>
+          <div class="widget-content nopadding">
+            <table class="table table-bordered data-table">
+              <thead>
+                <tr>
+                  <th>tags</th>
+                  <th>description</th>
+                  <th>updated at</th>
+                  <th>op</th>
+                </tr>
+              </thead>
+              <tbody>
+                <?php foreach ($tags as $tag) { ?>
+                <tr class="gradeA">
+                  <td><center><?php echo $tag['tag_name'];?></center></td>
+                  <td><center><?php echo $tag['tag_desc'];?></td>
+                  <td><center><?php echo $tag['updated_at'];?></td>
+                  <td>
                     <center>
-                      <a href="#CommentEdit" data-toggle="modal" class="btn btn-success btn-mini "><i class="icon-edit"></i>Edit</a> 
-                      
-                      <div id="CommentEdit" class="modal hide">
-                        <div class="modal-header">
-                          <button data-dismiss="modal" class="close" type="button">×</button>
-                          <h3>Edit comments</h3>
-                        </div>
-                        <div class="modal-body">
-                          <div class="widget-box">
-                            <div class="widget-title"> <span class="icon"> <i class="icon-align-justify"></i> </span>
-                              <h5>Details</h5>
-                            </div>
-                            <div class="widget-content nopadding">
-                              <form action=<?php echo "/comments/update/".$comment['id'] ?>  method="POST" class="form-horizontal">
-                                <div class="control-group">
-                                  <label class="control-label">Nickname:</label>
-                                  <div class="controls">
-                                    <input type="text" name="nickname" class="span11" value="<?php echo $comment['nickname'] ?>"/>
-                                  </div>
-                                </div>
-                                <div class="control-group">
-                                  <label class="control-label">E-mail</label>
-                                  <div class="controls">
-                                    <input type="email" name="email" class="span11" placeholder="E-mail address"  />
-                                  </div>
-                                </div>
-                                <div class="control-group">
-                                  <label class="control-label">Website</label>
-                                  <div class="controls">
-                                    <input type="text" name="website" class="span11" placeholder="Website name" />
-                                  </div>
-                                </div>
-                                <div class="control-group">
-                                  <label class="control-label">Content</label>
-                                  <div class="controls">
-                                    <textarea class="span11" name="content" ><?php echo $comment['content'] ?></textarea>
-                                  </div>
-                                </div>
-                                <div class="form-actions">
-                                  <button type="submit" class="btn btn-success">Save</button>
-                                </div>
-                              </form>
-                            </div>
-                          </div>
-                        </div>
-                      </div>   
-
-                      <form action=<?php echo "/comments/delete/".$comment['id'] ?>  method="POST" style="display: inline;">
+                      <form action=<?php echo "/tags/edit/".$tag['id'] ?> method="POST" style="display: inline;">
+                            <button type="submit" class="btn btn-success btn-mini"><i class="icon-edit"></i> Edit</button>
+                      </form>                            
+                      <form action=<?php echo "/tags/delete/".$tag['id'] ?>  method="POST" style="display: inline;">
                             <button type="submit" class="btn btn-danger btn-mini"><i class="icon-remove"></i> Delete</button>
                       </form>
                     </center>
@@ -157,7 +193,7 @@
             </table>
           </div>
         </div>
-      </div>
+      </div>    
     </div>
   </div>
 </div>
